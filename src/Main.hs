@@ -20,6 +20,12 @@ var xs = sum (map squared (map (deviationFromMean xs) xs)) / genericLength xs
 
 std xs = sqrt (var xs)
 
+sampleSize ((val, freq):[]) = freq
+sampleSize ((val, freq):xs) = freq + (sampleSize xs)
+
+normalize xs = map (divideBySampleSize (sampleSize xs)) xs
+    where divideBySampleSize sampleSize = \(val, freq) -> (val, (realToFrac freq) / (realToFrac sampleSize))
+
 main :: IO ()
 main = do
     -- http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8016&srtLabel=611932
@@ -34,3 +40,6 @@ main = do
     print (var fempreg_live_prglngth)
     -- for all live births, standard deviation is 2.7 weeks
     print (std fempreg_live_prglngth)
+    -- PMF is {1: 0.2, 2: 0.4, 3: 0.2, 5: 0.2}
+    let freqs = frequencies [1, 2, 2, 3, 5]
+    print (normalize freqs)
