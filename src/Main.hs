@@ -35,6 +35,10 @@ pmfVar xs = sum (map sumBody xs)
           squared x = x * x
           sumBody (val, prob) = prob * (squared (val - meanValue))
 
+percentileRank scores yourScore = 100 * count / numScores
+    where numScores = genericLength scores
+          count = genericLength (filter (<= yourScore) scores)
+
 main :: IO ()
 main = do
     -- http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8016&srtLabel=611932
@@ -56,3 +60,7 @@ main = do
     print pmf
     print (pmfMean pmf)
     print (pmfVar pmf)
+
+    let scores = [55, 66, 77, 88, 99]
+    -- percentile rank is 80
+    print (percentileRank scores 88)
