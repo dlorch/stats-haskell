@@ -39,6 +39,14 @@ percentileRank scores yourScore = 100 * count / numScores
     where numScores = genericLength scores
           count = genericLength (filter (<= yourScore) scores)
 
+percentile scores percentileRank = sortedScores !! index
+    where sortedScores = sort scores
+          index = truncate(percentileRank * ((genericLength sortedScores) - 1) / 100)
+
+cdf sample x = count / numSamples
+    where numSamples = genericLength sample
+          count = genericLength (filter (<= x) sample)
+
 main :: IO ()
 main = do
     -- http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8016&srtLabel=611932
@@ -62,5 +70,16 @@ main = do
     print (pmfVar pmf)
 
     let scores = [55, 66, 77, 88, 99]
-    -- percentile rank is 80
+    -- the percentile rank is the fraction of people who scored lower than you (or the same) (here: 80)
     print (percentileRank scores 88)
+    -- the 50th percentile is the value with percentile rank 50 (here: 77)
+    print (percentile scores 50)
+    
+    let sample = [1, 2, 2, 3, 5]
+    -- the cumulative distribution function maps from a value to its percentile rank
+    print (cdf sample 0)
+    print (cdf sample 1)
+    print (cdf sample 2)
+    print (cdf sample 3)
+    print (cdf sample 4)
+    print (cdf sample 5)
