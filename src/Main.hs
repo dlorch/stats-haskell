@@ -16,7 +16,8 @@ mean xs = realToFrac (sum xs) / genericLength xs
 
 var xs = sum (map squared (map (deviationFromMean xs) xs)) / genericLength xs
     where squared x = x * x
-          deviationFromMean xs = \x -> (realToFrac x) - (mean xs)
+          meanValue = mean xs
+          deviationFromMean xs = \x -> (realToFrac x) - meanValue
 
 std xs = sqrt (var xs)
 
