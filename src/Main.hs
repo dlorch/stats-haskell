@@ -74,6 +74,9 @@ main = do
     print (percentileRank scores 88)
     -- the 50th percentile is the value with percentile rank 50 (here: 77)
     print (percentile scores 50)
+    -- the interquartile range is a measure of the spread of a distribution
+    let iqr = (percentile scores 75) - (percentile scores 25)
+    print iqr
     
     let sample = [1, 2, 2, 3, 5]
     -- the cumulative distribution function maps from a value to its percentile rank
