@@ -4,7 +4,7 @@ import NSFG
 import BabyBoom
 import Data.List (group, sort, genericLength)
 import Graphics.Rendering.Chart.Easy
-import Graphics.Rendering.Chart.Backend.Diagrams(toFile)
+import Graphics.Rendering.Chart.Backend.Cairo (toFile)
 
 frequencies xs = map countGroups (group (sort xs))
     where countGroups x = (head x, length x)
@@ -75,7 +75,7 @@ main = do
     print (std fempreg_live_prglngth)
     -- draw histogram of live pregnancy lengths
     let fempreg_prglngth_freqs = map toDoublePair (frequencies fempreg_live_prglngth)
-    toFile def "charts/fempreg_prglngth.svg" $ do
+    toFile def "charts/fempreg_prglngth.png" $ do
         layout_title .= "Histogram of pregnancy length in weeks"
         setColors [opaque blue]
         plot (line "prglngth" [fempreg_prglngth_freqs])
@@ -105,14 +105,14 @@ main = do
     print (cdf sample 4)
     print (cdf sample 5)
 
-    toFile def "charts/exponential_distribution_cdf.svg" $ do
+    toFile def "charts/exponential_distribution_cdf.png" $ do
         layout_title .= "CDFs of exponential distributions with various parameters"
         setColors [opaque darkblue, opaque blue, opaque cyan]
         plot (line "lambda = 2"   [exponentialDistributionCDF 2   [0,(0.01)..3.0]])
         plot (line "lambda = 1"   [exponentialDistributionCDF 1   [0,(0.01)..3.0]])
         plot (line "lambda = 0.5" [exponentialDistributionCDF 0.5 [0,(0.01)..3.0]])
     
-    toFile def "charts/babyboom_birthtimes_cdf.svg" $ do
+    toFile def "charts/babyboom_birthtimes_cdf.png" $ do
         layout_title .= "CDF of birth interarrival times"
         setColors [opaque darkblue]
         plot (line "CDF" [cdfPlot babyboom_minutes_diff [0,(0.5)..160]])
