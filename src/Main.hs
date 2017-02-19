@@ -54,10 +54,10 @@ toDoublePair :: (Integer, Int) -> (Double, Double)
 toDoublePair (a, b) = (realToFrac a, realToFrac b)
 
 exponentialDistributionCDF :: Double -> [Double] -> [(Double, Double)]
-exponentialDistributionCDF lambda xs = [ (x, 1 - exp(-lambda * x)) | x <- xs ]
+exponentialDistributionCDF lambda xs = [ (x, 1 - exp(-lambda * x)) | x <- xs ]
 
-cdfDistribution :: [Double] -> [Double] -> [(Double, Double)]
-cdfDistribution sample xs = [ (x, cdf sample x) | x <- xs ]
+cdfPlot :: [Double] -> [Double] -> [(Double, Double)]
+cdfPlot sample xs = [ (x, cdf sample x) | x <- xs ]
 
 main :: IO ()
 main = do
@@ -115,4 +115,4 @@ main = do
     toFile def "charts/babyboom_birthtimes_cdf.svg" $ do
         layout_title .= "CDF of birth interarrival times"
         setColors [opaque darkblue]
-        plot (line "CDF" [cdfDistribution babyboom_minutes_diff [0,(0.5)..160]])
+        plot (line "CDF" [cdfPlot babyboom_minutes_diff [0,(0.5)..160]])
