@@ -78,7 +78,7 @@ main = do
     toFile def "charts/fempreg_prglngth.svg" $ do
         layout_title .= "Histogram of pregnancy length in weeks"
         setColors [opaque blue]
-        plot (points "prglngth" fempreg_prglngth_freqs)
+        plot (line "prglngth" [fempreg_prglngth_freqs])
 
     let freqs = frequencies [1, 2, 2, 3, 5]
     -- PMF is {1: 0.2, 2: 0.4, 3: 0.2, 5: 0.2}
@@ -108,9 +108,9 @@ main = do
     toFile def "charts/exponential_distribution_cdf.svg" $ do
         layout_title .= "CDFs of exponential distributions with various parameters"
         setColors [opaque darkblue, opaque blue, opaque cyan]
-        plot (points "lambda = 2"   (exponentialDistributionCDF 2   [0,(0.01)..3.0]))
-        plot (points "lambda = 1"   (exponentialDistributionCDF 1   [0,(0.01)..3.0]))
-        plot (points "lambda = 0.5" (exponentialDistributionCDF 0.5 [0,(0.01)..3.0]))
+        plot (line "lambda = 2"   [exponentialDistributionCDF 2   [0,(0.01)..3.0]])
+        plot (line "lambda = 1"   [exponentialDistributionCDF 1   [0,(0.01)..3.0]])
+        plot (line "lambda = 0.5" [exponentialDistributionCDF 0.5 [0,(0.01)..3.0]])
     
     toFile def "charts/babyboom_birthtimes_cdf.svg" $ do
         layout_title .= "CDF of birth interarrival times"
