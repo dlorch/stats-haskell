@@ -52,6 +52,9 @@ cdf sample x = count / numSamples
 toDoublePair :: (Integer, Int) -> (Double, Double)
 toDoublePair (a, b) = (realToFrac a, realToFrac b)
 
+exponentialDistributionCDF :: Double -> [Double] -> [(Double, Double)]
+exponentialDistributionCDF lambda xs = [ (x, 1 - exp(-lambda * x)) | x <- xs ]
+
 main :: IO ()
 main = do
     -- http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8016&srtLabel=611932
@@ -97,3 +100,10 @@ main = do
     print (cdf sample 3)
     print (cdf sample 4)
     print (cdf sample 5)
+
+    toFile def "charts/exponential_distribution_cdf.svg" $ do
+        layout_title .= "CDFs of exponential distributions with various parameters"
+        setColors [opaque darkblue, opaque blue, opaque cyan]
+        plot (points "lambda = 2"   (exponentialDistributionCDF 2   [0,(0.01)..3.0]))
+        plot (points "lambda = 1"   (exponentialDistributionCDF 1   [0,(0.01)..3.0]))
+        plot (points "lambda = 0.5" (exponentialDistributionCDF 0.5 [0,(0.01)..3.0]))
