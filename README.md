@@ -1,4 +1,4 @@
-# Statistics in Haskell Playground
+# Statistics and Haskell Playground
 
 Teaching myself [statistics](https://www.mathsisfun.com/definitions/statistics.html) and [Haskell](https://www.haskell.org/) at the same time.
 
