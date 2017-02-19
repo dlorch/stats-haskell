@@ -1,6 +1,7 @@
 module Main where
 
 import NSFG
+import BabyBoom
 import Data.List (group, sort, genericLength)
 import Graphics.Rendering.Chart.Easy
 import Graphics.Rendering.Chart.Backend.Diagrams(toFile)
@@ -55,6 +56,9 @@ toDoublePair (a, b) = (realToFrac a, realToFrac b)
 exponentialDistributionCDF :: Double -> [Double] -> [(Double, Double)]
 exponentialDistributionCDF lambda xs = [ (x, 1 - exp(-lambda * x)) | x <- xs ]
 
+cdfDistribution :: [Double] -> [Double] -> [(Double, Double)]
+cdfDistribution sample xs = [ (x, cdf sample x) | x <- xs ]
+
 main :: IO ()
 main = do
     -- http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8016&srtLabel=611932
@@ -107,3 +111,8 @@ main = do
         plot (points "lambda = 2"   (exponentialDistributionCDF 2   [0,(0.01)..3.0]))
         plot (points "lambda = 1"   (exponentialDistributionCDF 1   [0,(0.01)..3.0]))
         plot (points "lambda = 0.5" (exponentialDistributionCDF 0.5 [0,(0.01)..3.0]))
+    
+    toFile def "charts/babyboom_birthtimes_cdf.svg" $ do
+        layout_title .= "CDF of birth interarrival times"
+        setColors [opaque darkblue]
+        plot (line "CDF" [cdfDistribution babyboom_minutes_diff [0,(0.5)..160]])
