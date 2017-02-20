@@ -128,3 +128,8 @@ main = do
         layout_title .= "Complementary CDF of birth interarrival times on a \"log-y scale\""
         setColors [opaque darkblue]
         plot (line "CCDF" [ccdfPlot $ cdfPlot babyboom_minutes_diff [0,(0.5)..140]])
+
+    toFile def "charts/fempreg_birthwgt_cdf.png" $ do
+        layout_title .= "Birth weights (lbs)"
+        setColors [opaque darkblue]
+        plot (line "CDF" [cdfPlot fempreg_birthwgt_lb [0..16]])
