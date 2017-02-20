@@ -59,6 +59,10 @@ exponentialDistributionCDF lambda xs = [ (x, 1 - exp(-lambda * x)) | x <- xs ]
 cdfPlot :: [Double] -> [Double] -> [(Double, Double)]
 cdfPlot sample xs = [ (x, cdf sample x) | x <- xs ]
 
+ccdfPlot :: [(Double, Double)] -> [(Double, Double)]
+ccdfPlot xs = map complementaryCDF xs
+    where complementaryCDF (x, y) = (x, log (1 - y))
+
 main :: IO ()
 main = do
     -- http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8016&srtLabel=611932
@@ -116,3 +120,11 @@ main = do
         layout_title .= "CDF of birth interarrival times"
         setColors [opaque darkblue]
         plot (line "CDF" [cdfPlot babyboom_minutes_diff [0,(0.5)..160]])
+    
+    -- complementary CDF: For data from an exponential distribution, the result is a straight line
+    -- here, it is not exactly straight, which indicates that the exponential distribution is not a
+    -- perfect model for this data 
+    toFile def "charts/babyboom_birthtimes_ccdf.png" $ do
+        layout_title .= "Complementary CDF of birth interarrival times on a \"log-y scale\""
+        setColors [opaque darkblue]
+        plot (line "CCDF" [ccdfPlot $ cdfPlot babyboom_minutes_diff [0,(0.5)..140]])
