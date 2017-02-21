@@ -129,6 +129,14 @@ main = do
         setColors [opaque darkblue]
         plot (line "CCDF" [ccdfPlot $ cdfPlot babyboom_minutes_diff [0,(0.5)..140]])
 
+    -- Its [normal distrubiton] CDF is defined by an integral that does not have a closed form solution
+    toFile def "charts/gaussian_distribution_cdf.png" $ do
+        layout_title .= "CDF of normal distributions with a range of parameters"
+        setColors [opaque darkblue, opaque blue, opaque cyan]
+        plot (line "mu = 1, sigma = 0.5" [gaussian_cdf_mu1_sigma05])
+        plot (line "mu = 2, sigma = 0.4" [gaussian_cdf_mu2_sigma04])
+        plot (line "mu = 3, sigma = 0.3" [gaussian_cdf_mu3_sigma03])
+
     toFile def "charts/fempreg_birthwgt_cdf.png" $ do
         layout_title .= "Birth weights (lbs)"
         setColors [opaque darkblue]
