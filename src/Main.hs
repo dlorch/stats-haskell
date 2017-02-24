@@ -140,5 +140,5 @@ main = do
     toFile def "charts/fempreg_birthwgt_cdf.png" $ do
         layout_title .= "Birth weights (lbs)"
         setColors [opaque gray, opaque darkblue]
-        plot (line "model (mu = 6.4, sigma = 1.24)" [gaussian_cdf_mu6_4_sigma1_24]) -- this is mu = 7.28 in the book
-        plot (line "data" [cdfPlot fempreg_birthwgt_lb [0..16]])
+        plot (line "model (mu = 7.28, sigma = 1.24)" [gaussian_cdf_mu7_28_sigma1_24])
+        plot (line "data" [cdfPlot fempreg_totalwgt_lb [0..16]])
