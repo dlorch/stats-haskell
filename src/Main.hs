@@ -2,6 +2,7 @@ module Main where
 
 import NSFG
 import BabyBoom
+import BRFSS
 import Data.List (group, sort, genericLength)
 import Graphics.Rendering.Chart.Easy
 import Graphics.Rendering.Chart.Backend.Cairo (toFile)
@@ -142,3 +143,13 @@ main = do
         setColors [opaque gray, opaque darkblue]
         plot (line "model (mu = 7.28, sigma = 1.24)" [gaussian_cdf_mu7_28_sigma1_24])
         plot (line "data" [cdfPlot fempreg_totalwgt_lb [0..16]])
+
+    toFile def "charts/brfss_scatter.png" $ do
+        layout_title .= "Scatter plot of weight versus height for the respondents in the BRFSS (unjittered)"
+        setColors [opaque darkblue]
+        plot (points "points" brfss_sample)
+
+    toFile def "charts/brfss_scatter_jittered.png" $ do
+        layout_title .= "Scatter plot of weight versus height for the respondents in the BRFSS (jittered)"
+        setColors [opaque darkblue]
+        plot (points "points" brfss_sample_jittered)
